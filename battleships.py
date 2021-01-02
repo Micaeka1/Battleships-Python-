@@ -1,27 +1,98 @@
-#see the readme.md file for description and data 
+import random
 
+def is_open_sea(row,column,fleet):
+    if fleet == []:
+        return True
+    all_ship_coordinates = set()
+    for elem in fleet:
+        hor = elem[2]
+        l = elem[3]
+        all_ship_coordinates.add((elem[0],elem[1]))
+        i = 1
+        if hor == True:
+            while i < l:
+                all_ship_coordinates.add((elem[0],elem[1]+i))
+                i += 1
+        else:
+            while i < l:
+                all_ship_coordinates.add((elem[0]+i,elem[1]))
+                i += 1
 
-def is_sunk(ship):
+    for elem in all_ship_coordinates:
+        if abs(row-elem[0]) <= 1 and abs(column - elem[1]) <= 1:
+                return False
+    return True  
+
+def ok_to_place_ship_at(row, column, horizontal, length, fleet):
+    new_ship_coords = {(row,column)} 
+    if horizontal == True:
+        if column + length > 9:
+            return False
+        for i in range(1,length -1):
+            new_ship_coords.add((row,column + i))
+    else:
+        if row + length > 9:
+            return False
+        for i in range(1,length -1):
+            new_ship_coords.add((row + i,column))
+
+    for elem in new_ship_coords:
+        if is_open_sea(elem[0],elem[1],fleet) == False:
+            return False
+
+    return True
+        
+    
+    
+def place_ship_at(row, column, horizontal, length, fleet):
+    return fleet.append((row,column,horizontal,length,{}))
+
+def randomly_place_all_ships():
+    fleet = []
+    ship_lengths = [1,2,3,4]
+    # Place battleship
+    row = random.randint(0,9)
+    col = random.randint(0,9)
+    horizontal = bool(random.getrandbits(1))
+    place_ship_at(row,col,horizontal,ship_lengths[3],fleet)
+    
+    # Place cruisers
+    i = 0
+    while i != 2:
+        row = random.randint(0,9)
+        col = random.randint(0,9)
+        horizontal = bool(random.getrandbits(1))
+        if ok_to_place_ship_at(row, col, horizontal, ship_lengths[2], fleet):
+            place_ship_at(row,col,horizontal,ship_lengths[2],fleet)
+            i += 1
+    
+    # Place destroyers
+    i = 0
+    while i != 3:
+        row = random.randint(0,9)
+        col = random.randint(0,9)
+        horizontal = bool(random.getrandbits(1))
+        if ok_to_place_ship_at(row, col, horizontal, ship_lengths[1], fleet):
+            place_ship_at(row,col,horizontal,ship_lengths[1],fleet)
+            i += 1
+    
+    # Place destroyers
+    i = 0
+    while i != 4:
+        row = random.randint(0,9)
+        col = random.randint(0,9)
+        horizontal = bool(random.getrandbits(1))
+        if ok_to_place_ship_at(row, col, horizontal, ship_lengths[0], fleet):
+            place_ship_at(row,col,horizontal,ship_lengths[0],fleet)
+            i += 1
+    
+    return fleet
+    
+'''def is_sunk(ship):
     #remove pass and add your implementation
     pass
 
 def ship_type(ship):
-    #remove pass and add your implementation
-    pass
-
-def is_open_sea(row, column, fleet):
-    #remove pass and add your implementation
-    pass
-
-def ok_to_place_ship_at(row, column, horizontal, length, fleet):
-    #remove pass and add your implementation
-    pass
-
-def place_ship_at(row, column, horizontal, length, fleet):
-    #remove pass and add your implementation
-    pass
-
-def randomly_place_all_ships():
     #remove pass and add your implementation
     pass
 
@@ -65,3 +136,7 @@ def main():
 
 if __name__ == '__main__': #keep this in
    main()
+'''
+
+f = randomly_place_all_ships()
+print(f)
