@@ -28,12 +28,12 @@ def ok_to_place_ship_at(row, column, horizontal, length, fleet):
     if horizontal == True:
         if column + length > 9:
             return False
-        for i in range(1,length -1):
+        for i in range(1,length):
             new_ship_coords.add((row,column + i))
     else:
         if row + length > 9:
             return False
-        for i in range(1,length -1):
+        for i in range(1,length):
             new_ship_coords.add((row + i,column))
 
     for elem in new_ship_coords:
@@ -87,12 +87,12 @@ def randomly_place_all_ships():
             i += 1
     
     return fleet
-    
-'''def is_sunk(ship):
-    #remove pass and add your implementation
-    pass
 
 def ship_type(ship):
+    ships = {4:'Battleship', 3: 'Cruiser', 2: "Destroyer", 1: "Submarine"}
+    return ships[ship[3]]
+
+'''def is_sunk(ship):
     #remove pass and add your implementation
     pass
 
