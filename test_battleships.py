@@ -8,7 +8,7 @@ s3 = (3, 0, True, 4, set())
 s4 = (9, 9, True, 1, set())
 s5 = (5, 3, True, 2, set())
 s6 = (1, 8, True, 1, set())
-
+fleet = [s3,s6]
     
 def test_ship_type1():
     assert ship_type(s1) == "Cruiser"
@@ -36,12 +36,7 @@ def test_place_ship_at1():
     assert expected == f
     print(f)
 
-fleet = [s3,s6]
-
 def test_is_open_sea1():
-    #add at least one test for open_sea by the deadline of session 7 assignment
-    '''fleet = [(4,1,True,4),(7,0,False,3),(9,0,True,1),(9,7,True,1),(9,9,True,1),(8,4,True,3),
-             (0,0,False,2),(2,6,False,2),(9,0,True,2),(5,3, True,1)]'''
     assert is_open_sea(s5[0],s5[1],fleet) == True
     assert is_open_sea(s4[0],s4[1],fleet) == True
     assert is_open_sea(s2[0],s2[1],fleet) == True
@@ -55,10 +50,22 @@ def test_ok_to_place_ship_at1():
     assert ok_to_place_ship_at(s1[0],s1[1],s1[2],s1[3],fleet) == False
     assert ok_to_place_ship_at(0,9,True,2,fleet) == False
 
-'''
+
 def test_is_sunk1():
     assert is_sunk(s1) == True
-    
+    assert is_sunk(s2) == False
+
+def test_ship_coordinates1():
+    assert ship_coordinates(s1[0],s1[1],s1[2],s1[3]) == [(2,2),(3,2),(4,2)]
+
+def test_check_if_hits1():
+    assert check_if_hits(1,9,fleet) == False
+    assert check_if_hits(3,3,fleet) == True
+    assert check_if_hits(2,8,fleet) == False
+    assert check_if_hits(5,1,fleet) == False
+    assert check_if_hits(1,8,fleet) == True
+
+'''
 def test_check_if_hits1():
     #add at least one test for check_if_hits by the deadline of session 7 assignment
     fleet = [(4,1,True,4),(7,0,False,3),(9,0,True,1),(9,7,True,1),(9,9,True,1),(8,4,True,3),
