@@ -26,12 +26,12 @@ def is_open_sea(row,column,fleet):
 def ok_to_place_ship_at(row, column, horizontal, length, fleet):
     new_ship_coords = {(row,column)} 
     if horizontal == True:
-        if column + length > 9:
+        if column + length > 10:
             return False
         for i in range(1,length):
             new_ship_coords.add((row,column + i))
     else:
-        if row + length > 9:
+        if row + length > 10:
             return False
         for i in range(1,length):
             new_ship_coords.add((row + i,column))
@@ -45,7 +45,7 @@ def ok_to_place_ship_at(row, column, horizontal, length, fleet):
     
     
 def place_ship_at(row, column, horizontal, length, fleet):
-    return fleet.append((row,column,horizontal,length,{}))
+    return fleet.append((row,column,horizontal,length,set()))
 
 def randomly_place_all_ships():
     fleet = []
@@ -92,14 +92,29 @@ def ship_type(ship):
     ships = {4:'Battleship', 3: 'Cruiser', 2: "Destroyer", 1: "Submarine"}
     return ships[ship[3]]
 
-'''def is_sunk(ship):
-    #remove pass and add your implementation
-    pass
+def is_sunk(ship):
+    if ship[3] == len(ship[4]):
+        return True
+    else: return False
 
 def check_if_hits(row, column, fleet):
-    #remove pass and add your implementation
-    pass
+    for elem in fleet:
+        ship_coords= ship_coordinates(elem[0], elem[1],elem[2],elem[3])
+        if (row,column) in ship_coords:
+            return True
+    return False
 
+def ship_coordinates(row,column,horizontal, length):
+    coords = [(row,column)]
+    if horizontal == True:
+        for i in range(1,length):
+            coords.append((row,column + i))
+    else:
+        for i in range(1,length):
+            coords.append((row + i,column)) 
+    return coords
+
+'''
 def hit(row, column, fleet):
     #remove pass and add your implementation
     pass
