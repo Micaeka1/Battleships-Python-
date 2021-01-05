@@ -5,10 +5,11 @@ for x in range(0,10):
     board.append(["-"] * 10)
 
 def print_board(board):
-    for row in board:
-        print(" ".join(row))
-
-
+    # Prints numbers at the top and leaves a space first
+    print(" "," ".join("0123456789"))
+    # Create row numbers on the side
+    for num, row in zip("0123456789", board):
+        print(num, " ".join(row))
 
 '''
 is_open_sea(row, column, fleet) -- checks if the square given by row and column neither contains 
