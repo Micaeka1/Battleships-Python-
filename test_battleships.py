@@ -34,7 +34,7 @@ def test_place_ship_at1():
     place_ship_at(s6[0],s6[1],s6[2],s6[3],f)
     expected = [s2,s3,s4,s5,s6]
     assert expected == f
-    print(f)
+
 
 def test_is_open_sea1():
     assert is_open_sea(s5[0],s5[1],fleet) == True
@@ -54,10 +54,19 @@ def test_ok_to_place_ship_at1():
 def test_is_sunk1():
     assert is_sunk(s1) == True
     assert is_sunk(s2) == False
+    assert is_sunk(s3) == False
+    s = (9, 9, True, 1, {(9,9)})
+    t = (5, 3, True, 2, {(5,4)})
+    assert is_sunk(s) == True
+    assert is_sunk(t) == False
 
 def test_ship_coordinates1():
     assert ship_coordinates(s1[0],s1[1],s1[2],s1[3]) == [(2,2),(3,2),(4,2)]
-
+    assert ship_coordinates(s2[0],s2[1],s2[2],s2[3]) == [(5,7),(6,7),(7,7)]
+    assert ship_coordinates(s3[0],s3[1],s3[2],s3[3]) == [(3,0),(3,1),(3,2), (3,3)]
+    assert ship_coordinates(s4[0],s4[1],s4[2],s4[3]) == [(9,9)]
+    assert ship_coordinates(s5[0],s5[1],s5[2],s5[3]) == [(5,3),(5,4)]
+    
 def test_check_if_hits1():
     assert check_if_hits(1,9,fleet) == False
     assert check_if_hits(3,3,fleet) == True
@@ -65,30 +74,38 @@ def test_check_if_hits1():
     assert check_if_hits(5,1,fleet) == False
     assert check_if_hits(1,8,fleet) == True
 
-'''
-def test_check_if_hits1():
-    #add at least one test for check_if_hits by the deadline of session 7 assignment
-    fleet = [(4,1,True,4),(7,0,False,3),(9,0,True,1),(9,7,True,1),(9,9,True,1),(8,4,True,3),
-             (0,0,False,2),(2,6,False,2),(9,0,True,2),(5,3, True,1)]
-    assert check_if_hits1(3,2,fleet) == True
-          
-          
-    #provide at least five tests in total for check_if_hits by the project submission deadline
+f1 = [(1,1,True, 3, set()), (1,6, False, 2, set()), (2,9, False, 2, set()), (3,0,True, 1, set()), \
+              (3,2,True,3, set()), (5,1,True,2, {(5,2)}), (5,4,True,1, set()), (5,7,True,1,set()), (6,9,False,4,set()), (9, 0, True, 1, set()) ] 
 
 def test_hit1():
-    #add at least one test for hit by the deadline of session 7 assignment
-    fleet2 = [(4,1,True,4),(7,0,False,3),(9,0,True,1),(9,7,True,1),(9,9,True,1),(8,4,True,3),
-               (0,0,False,2),(2,6,False,2),(9,0,True,2)]
-    fleet1 = [(4,1,True,4),(7,0,False,3),(9,0,True,1),(9,7,True,1),(9,9,True,1),(8,4,True,3),
-              (0,0,False,2),(2,6,False,2),(9,0,True,2),(5,3,True,1)] 
-    assert hit1(5,3,fleet1) == (fleet2,(5,3,True,1)    
-    #provide at least five tests in total for hit by the project submission deadline
-
-def test_are_unsunk_ships_left1():
-    #add at least one test for are_unsunk_ships_left by the deadline of session 7 assignment
-    fleet = [(4,1,True,4),(7,0,False,3),(9,0,True,1),(9,7,True,1),(9,9,True,1),(8,4,True,3),
-             (0,0,False,2),(2,6,False,2),(9,0,True,2),(5,3, True,1)]
-    assert are_unsunk_ships_left1(fleet) == True
-    #provide at least five tests in total for are_unsunk_ships_left by the project submission deadline
+    (actual,s) = hit(3,0,fleet)
+    s3[4].add((3,0))
+    expected = fleet
+    assert (actual, s) == (expected, s3)
+    (actual,s) = hit(3,1,fleet)
+    s3[4].add((3,1))
+    expected = fleet
+    assert (actual, s) == (expected, s3)
+    (actual,s) = hit(3,2,fleet)
+    s3[4].add((3,2))
+    expected = fleet
+    assert (actual, s) == (expected, s3)
+    (actual,s) = hit(3,3,fleet)
+    s3[4].add((3,3))
+    expected = fleet
+    assert (actual, s) == (expected, s3)
+    (actual,s) = hit(1,8,fleet)
+    s6[4].add((1,8))
+    expected = fleet
+    assert (actual, s) == (expected, s6)
     
-'''
+def test_are_unsunk_ships_left1():
+    f1 = [(1,1,True, 3, set()), (1,6, False, 2, set()), (2,9, False, 2, set())]
+    f2 = []
+    assert are_unsunk_ships_left(f1) == True
+    assert are_unsunk_ships_left(f2) == False
+    assert are_unsunk_ships_left(fleet) == True
+    fleet.remove(s3)
+    assert are_unsunk_ships_left(fleet) == True
+    fleet.remove(s6)
+    assert are_unsunk_ships_left(fleet) == False
